@@ -1,0 +1,1 @@
+Practice async patterns by using examples that don’t rely on external data fetching, such as simulating delayed actions with setTimeout or creating mock promises. This will help you understand how promises work and how to manage asynchronous flow in JavaScript without introducing APIs.
