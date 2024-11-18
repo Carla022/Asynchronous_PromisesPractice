@@ -1,5 +1,19 @@
-window.addEventListener("load", () => {
-    
+
+if (document.readyState === "complete") {
+    triggerApp();
+} else {
+    window.addEventListener("load", triggerApp);
+}
+
+async function triggerApp (){    
+    console.log("All resources loaded successfully");
+
+    let dragonPet = prompt("Please Name Your Dragon");
+    if (dragonPet != null){
+        document.getElementById("dragonPet").innerHTML = 
+        "Dragon: " + dragonPet; 
+    }
+
     let meatFoodItems = ["Whole Chicken", "Pork Sausage", "Sardine", "Ham", "Beef Patty", "Leg of lamb", "Turkey Leg", "Tuna", "Trout"];
     let fruitFoodItems = ["Strawberry", "Apple", "Banana", "Peach", "Pear", "Grape", "Avocado"];
     let vegFoodItems = ["Broccoli", "Kale", "Soy Bean", "Potatoe", "Carrot", "Onion", "Tomatoe", "Bell Pepper"];
@@ -28,9 +42,7 @@ window.addEventListener("load", () => {
             let item = document.createElement("INPUT");
             item.setAttribute("type", "checkbox");
             item.setAttribute("id", "foodItem");
-            item.setAttribute("value", element);
-            item.appendChild(document.createElement("BR"));
-            
+            item.setAttribute("value", element);            
         
             // Create a label for the checkbox
             let label = document.createElement("LABEL");
@@ -40,60 +52,45 @@ window.addEventListener("load", () => {
             let container = document.getElementById("foodList");
             container.appendChild(item);
             container.appendChild(label);
-        
             container.appendChild(document.createElement("BR"));
         });        
     }
 
     function getRandomFoodReqs(arr) {
 
-        return new Promise(function (resolve, reject) {
+        //Using a setInterval to generate new food requests every 10s.
+        setInterval(() => {
 
-            if(document.status === 200){
-                resolve(() => {
+            // Uncheck all checkboxes
+            const checkboxes = document.querySelectorAll("#foodList input[type='checkbox']");
 
-                    //Using a setInterval to generate new food requests every 10s.
-                    setInterval(() => {
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+            });    
 
-                        // Uncheck all checkboxes
-                        const checkboxes = document.querySelectorAll("#foodList input[type='checkbox']");
-
-                        checkboxes.forEach((checkbox) => {
-                            checkbox.checked = false;
-                        });    
-
-                        //Generating a random number from 1 to foodOptions length (arr.length)
-                        const randomCount = Math.floor(Math.random() * arr.length) + 1;
-                    
-                        // Shuffling the array and picking the first 'randomCount' elements
-                        const shuffled = arr.sort(() => 0.5 - Math.random());
-                        const selectedItems = shuffled.slice(0, randomCount);
-                    
-                        // Displaying selected items in the "dragon" HTML container element
-                        const petContainer = document.getElementById("dragon");
-                        
-                        // Clearing the previous food Req content
-                        petContainer.innerHTML = ""; 
-                    
-                        
-                        selectedItems.forEach((item) => {
-                            // Create a paragraph element for each selected food item
-                            let foodItem = document.createElement("P");
-                            foodItem.textContent = item;
-                            petContainer.appendChild(foodItem);
-                        });
-                        
-                        // //Return the list of selected items
-                        // return selectedItems; 
-
-                    }, 10000);
-                })
-            }else {
-                reject ("Oops!The page encountered an issue");
-            };
-
-        })
+            //Generating a random number from 1 to foodOptions length (arr.length)
+            const randomCount = Math.floor(Math.random() * arr.length) + 1;
         
+            // Shuffling the array and picking the first 'randomCount' elements
+            const shuffled = arr.sort(() => 0.5 - Math.random());
+            const selectedItems = shuffled.slice(0, randomCount);
+        
+            // Displaying selected items in the "dragon" HTML container element
+            const petContainer = document.getElementById("dragonReq");
+            
+            // Clearing the previous food Req content
+            petContainer.innerHTML = ""; 
+        
+            
+            selectedItems.forEach((item) => {
+                // Create a paragraph element for each selected food item
+                let foodItem = document.createElement("P");
+                foodItem.textContent = item;
+                petContainer.appendChild(foodItem);
+            });
+
+        }, 10000);
+              
     }
 
     let arr = foodOptions;
@@ -101,7 +98,7 @@ window.addEventListener("load", () => {
     getRandomFoodReqs(arr);
     
 
-});
+};
 
 
 
