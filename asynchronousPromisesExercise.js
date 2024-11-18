@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", (onload) => {
+window.addEventListener("load", () => {
     
     let meatFoodItems = ["Whole Chicken", "Pork Sausage", "Sardine", "Ham", "Beef Patty", "Leg of lamb", "Turkey Leg", "Tuna", "Trout"];
     let fruitFoodItems = ["Strawberry", "Apple", "Banana", "Peach", "Pear", "Grape", "Avocado"];
@@ -45,64 +45,63 @@ document.addEventListener("DOMContentLoaded", (onload) => {
         });        
     }
 
-
-    
-
     function getRandomFoodReqs(arr) {
-        //Using a setInterval to generate new food requests every 10s.
-        setInterval(() => {
 
-            // Uncheck all checkboxes
-            const checkboxes = document.querySelectorAll("#foodList input[type='checkbox']");
+        return new Promise(function (resolve, reject) {
 
-            checkboxes.forEach((checkbox) => {
-                checkbox.checked = false;
-            });    
+            if(document.status === 200){
+                resolve(() => {
 
-            //Generating a random number from 1 to foodOptions length (arr.length)
-            const randomCount = Math.floor(Math.random() * arr.length) + 1;
-        
-            // Shuffling the array and picking the first 'randomCount' elements
-            const shuffled = arr.sort(() => 0.5 - Math.random());
-            const selectedItems = shuffled.slice(0, randomCount);
-        
-            // Displaying selected items in the "dragon" HTML container element
-            const petContainer = document.getElementById("dragon");
-            
-            // Clearing the previous food Req content
-            petContainer.innerHTML = ""; 
-        
-            
-            selectedItems.forEach((item) => {
-                // Create a paragraph element for each selected food item
-                let foodItem = document.createElement("P");
-                foodItem.textContent = item;
-                petContainer.appendChild(foodItem);
-            });
-            
-            // //Return the list of selected items
-            // return selectedItems; 
+                    //Using a setInterval to generate new food requests every 10s.
+                    setInterval(() => {
 
-        }, 10000);
+                        // Uncheck all checkboxes
+                        const checkboxes = document.querySelectorAll("#foodList input[type='checkbox']");
+
+                        checkboxes.forEach((checkbox) => {
+                            checkbox.checked = false;
+                        });    
+
+                        //Generating a random number from 1 to foodOptions length (arr.length)
+                        const randomCount = Math.floor(Math.random() * arr.length) + 1;
+                    
+                        // Shuffling the array and picking the first 'randomCount' elements
+                        const shuffled = arr.sort(() => 0.5 - Math.random());
+                        const selectedItems = shuffled.slice(0, randomCount);
+                    
+                        // Displaying selected items in the "dragon" HTML container element
+                        const petContainer = document.getElementById("dragon");
+                        
+                        // Clearing the previous food Req content
+                        petContainer.innerHTML = ""; 
+                    
+                        
+                        selectedItems.forEach((item) => {
+                            // Create a paragraph element for each selected food item
+                            let foodItem = document.createElement("P");
+                            foodItem.textContent = item;
+                            petContainer.appendChild(foodItem);
+                        });
+                        
+                        // //Return the list of selected items
+                        // return selectedItems; 
+
+                    }, 10000);
+                })
+            }else {
+                reject ("Oops!The page encountered an issue");
+            };
+
+        })
         
     }
 
     let arr = foodOptions;
     shuffleFoodArr(arr);
-    // console.log(getRandomFoodReqs(shuffleFoodArr(arr)));
     getRandomFoodReqs(arr);
-
-    // console.log(getRandomFoodReqs(arr));
     
 
 });
 
 
-
-
-function feedPetDragon(){
-    return new Promise((resolve, reject) => {
-        
-    });
-}
 
